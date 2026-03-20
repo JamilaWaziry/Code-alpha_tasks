@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #F5F3F2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      background: #3E6C87;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(30, 60, 80, 0.35);
+      text-align: center;
+      width: 350px;
+      color: #fff;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      margin-bottom: 20px;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      backdrop-filter: blur(5px);
+    }
+
+   
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      cursor: pointer;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #ffffff;
+      color: #2f4f63;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 5px 15px rgba(20, 50, 70, 0.4);
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(20, 50, 70, 0.5);
+    }
+
+    .results {
+      margin-top: 25px;
+    }
+
+    .result-box {
+      background: rgba(255,255,255,0.15);
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      box-shadow: 0 5px 15px rgba(20, 50, 70, 0.25);
+      transition: transform 0.3s ease;
+    }
+
+    .result-box:hover {
+      transform: scale(1.03);
+    }
+
+    
+    .error {
+      color: #ff6b6b;
+      font-weight: normal;
+      box-shadow: none;
+      background: transparent;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Age Calculator</h1>
+
+    <input type="date" id="dob">
+
+    <button onclick="calculateAge()">Calculate</button>
+
+    <div class="results" id="results"></div>
+  </div>
+
+  <script>
+    function calculateAge() {
+      const dob = document.getElementById('dob').value;
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = "";
+
+      if (!dob) {
+        resultsDiv.innerHTML = `<div class="error">Please select your date of birth</div>`;
+        return;
+      }
+
+      const dobDate = new Date(dob);
+      const today = new Date();
+
+      if (dobDate > today) {
+        resultsDiv.innerHTML = `<div class="error">Future date is not valid</div>`;
+        return;
+      }
+
+      let years = today.getFullYear() - dobDate.getFullYear();
+      let months = today.getMonth() - dobDate.getMonth();
+      let days = today.getDate() - dobDate.getDate();
+
+      if (days < 0) {
+        months--;
+        days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      }
+
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      resultsDiv.innerHTML = `
+        <div class="result-box">Years: ${years}</div>
+        <div class="result-box">Months: ${months}</div>
+        <div class="result-box">Days: ${days}</div>
+      `;
+    }
+  </script>
+</body>
+</html>
